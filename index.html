@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 髮型變裝</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>AI 髮型變裝</h1>
+        <h2 id="scientist-quote"></h2>
+    </header>
+
+    <main>
+        <section class="io-section">
+            <div class="upload-area">
+                <h3>1. 上傳您的照片</h3>
+                <div class="upload-box">
+                    <label for="user-photo">您的自拍照 (A)</label>
+                    <input type="file" id="user-photo" accept="image/*">
+                    <img id="user-photo-preview" class="preview" src="#" alt="User photo preview" />
+                </div>
+                <div class="upload-box">
+                    <label for="style-photo">髮型來源照 (B)</label>
+                    <input type="file" id="style-photo" accept="image/*">
+                    <img id="style-photo-preview" class="preview" src="#" alt="Style photo preview" />
+                </div>
+            </div>
+
+            <div class="action-area">
+                <button id="generate-btn">生成效果</button>
+            </div>
+
+            <div class="result-area">
+                <h3>2. 預覽變裝結果</h3>
+                <div id="result-image-container">
+                    <p>效果將顯示於此</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cards-section">
+            <h3>AI 處理流程教學</h3>
+
+            <!-- 教學卡 1: 人臉偵測 -->
+            <div class="card">
+                <div class="card-header">
+                    <h4><span class="arrow">▶</span>人臉偵測 (Face Detection)</h4>
+                    <button class="speak-btn">語音朗讀</button>
+                </div>
+                <div class="card-content">
+                    <p>首先，AI 需要在您的照片(A)中精準地找到人臉的位置，並標記出五官的關鍵點（如眼睛、鼻子、嘴巴和臉部輪廓），這能確保髮型可以被正確地對齊。</p>
+                    <pre><code>// 虛擬程式碼：使用 face-api.js 進行偵測
+const detections = await faceapi
+  .detectSingleFace(imageA)
+  .withFaceLandmarks();
+console.log('偵測到臉部關鍵點:', detections.landmarks);</code></pre>
+                </div>
+            </div>
+
+            <!-- 教學卡 2: 髮型分割 -->
+            <div class="card">
+                <div class="card-header">
+                    <h4><span class="arrow">▶</span>髮型分割 (Hair Segmentation)</h4>
+                    <button class="speak-btn">語音朗讀</button>
+                </div>
+                <div class="card-content">
+                    <p>接著，AI 會分析髮型來源照片(B)，將頭髮的區域從背景中分離出來。這個過程稱為「語意分割」，它能讓 AI 只專注於髮型本身。</p>
+                    <pre><code>// 虛擬程式碼：使用 body-pix 模型
+const segmentation = await bodyPix.load();
+const { hair } = await segmentation.segmentPerson(imageB);
+console.log('成功提取髮型區域');</code></pre>
+                </div>
+            </div>
+
+            <!-- 教學卡 3: 融合與展示 -->
+            <div class="card">
+                <div class="card-header">
+                    <h4><span class="arrow">▶</span>融合與展示 (Image Fusion)</h4>
+                    <button class="speak-btn">語音朗讀</button>
+                </div>
+                <div class="card-content">
+                    <p>最後一步，是將提取出的髮型(B)套用到您的臉部(A)上。AI 會根據先前偵測到的臉部關鍵點進行縮放、旋轉與對齊，並微調光線與色彩，使其看起來自然融合。</p>
+                    <pre><code>// 虛擬程式碼：使用 Canvas 進行圖像合成
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+ctx.drawImage(imageA, 0, 0); // 繪製底圖
+ctx.drawImage(resizedHair, faceLandmarks.jawline[0].x, faceLandmarks.jawline[0].y); // 疊加髮型
+resultImage.src = canvas.toDataURL();</code></pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
